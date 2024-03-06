@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-//   baseURL: "https://techutsav-auth-backend.onrender.com",
-  baseURL: "http://localhost:3001",
+  baseURL: import.meta.env.VITE_API_KEY,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
