@@ -30,10 +30,10 @@ const columns = [
   { id: "confirm", label: "Confirm Payment", minWidth: 70 },
 ];
 
-const Data = () => {
+const Data = ({updateForm, setUpdateForm}) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [restartEffect, setRestartEffect] = useState(true);
+  // const [restartEffect, setRestartEffect] = useState(true);
 
   const navigate = useNavigate();
 
@@ -48,14 +48,14 @@ const Data = () => {
               a.transactionNumber.length > b.transactionNumber.length ? -1 : 1
             )
         );
-        setRestartEffect(false);
+        setUpdateForm(false);
         setLoading(false);
       })
       .catch((err) => {
         //console.log(err);
         navigate("/");
       });
-  }, [restartEffect]);
+  }, [updateForm]);
 
   if (loading) {
     return (
@@ -165,7 +165,7 @@ const Data = () => {
                                       transactionNumber: "",
                                     })
                                     .then((result) => {
-                                      setRestartEffect(true);
+                                      setUpdateForm(true);
                                       setLoading(false);
                                     })
                                     .catch((err) => {
