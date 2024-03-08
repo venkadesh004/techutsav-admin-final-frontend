@@ -19,6 +19,7 @@ import { api } from "../api/api";
 import { useNavigate } from "react-router-dom";
 
 const columns = [
+  { id: "sno", label: "S No", minWidth: 80 },
   { id: "email", label: "Email", minWidth: 50 },
   { id: "fullName", label: "Full Name", minWidth: 50 },
   { id: "phoneNumber", label: "Phone Number", minWidth: 50 },
@@ -30,7 +31,7 @@ const columns = [
   { id: "confirm", label: "Confirm Payment", minWidth: 70 },
 ];
 
-const Data = ({updateForm, setUpdateForm}) => {
+const Data = ({ updateForm, setUpdateForm }) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [restartEffect, setRestartEffect] = useState(true);
@@ -98,10 +99,13 @@ const Data = ({updateForm, setUpdateForm}) => {
                   // //console.log(row);
                   return (
                     <TableRow hover role="checkbox" key={index}>
-                      {columns.map((column, index) => {
+                      {columns.map((column, newIndex) => {
+                        if (column.id === "sno") {
+                          return <TableCell key={newIndex}>{index + 1}</TableCell>;
+                        }
                         if (column.id === "paid") {
                           return (
-                            <TableCell key={index}>
+                            <TableCell key={newIndex}>
                               {row[column.id] ? (
                                 <FileDownloadDoneIcon color="success" />
                               ) : (
@@ -113,7 +117,7 @@ const Data = ({updateForm, setUpdateForm}) => {
                         if (column.id === "confirm") {
                           return (
                             <TableCell
-                              key={index}
+                              key={newIndex}
                               sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -179,7 +183,7 @@ const Data = ({updateForm, setUpdateForm}) => {
                           );
                         }
                         return (
-                          <TableCell key={index}>{row[column.id]}</TableCell>
+                          <TableCell key={newIndex}>{row[column.id]}</TableCell>
                         );
                       })}
                     </TableRow>
