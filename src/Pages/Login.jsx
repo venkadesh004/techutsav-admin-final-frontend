@@ -44,6 +44,7 @@ const Login = () => {
       .then((result) => {
         if (result.data.msg === "success") {
           sessionStorage.setItem("user", result.data.user);
+          setOpen(false);
           navigate("/list");
         } else {
           console.log(err);
@@ -106,7 +107,6 @@ const Login = () => {
       <div>
         <Snackbar
           open={open}
-          autoHideDuration={10000}
           onClose={handleClose}
           anchorOrigin={{ horizontal: "right", vertical: "top" }}
         >
