@@ -42,8 +42,8 @@ const Login = () => {
     api
       .post("/", { password })
       .then((result) => {
-        console.log(result);
         if (result.data.msg === "success") {
+          sessionStorage.setItem("user", result.data.user);
           navigate("/list");
         } else {
           console.log(err);

@@ -25,7 +25,7 @@ const columns = [
   { id: "phoneNumber", label: "Phone Number", minWidth: 50 },
   { id: "collegeName", label: "College Name", minWidth: 50 },
   { id: "department", label: "Department", minWidth: 50 },
-  { id: "paid", label: "Paid", minWidth: 50 },
+  { id: "paid", label: "Payment confirmed", minWidth: 50 },
   { id: "transactionNumber", label: "Transaction Number", minWidth: 100 },
   { id: "selectedDepartment", label: "Selected Dept", minWidth: 100 },
   { id: "confirm", label: "Confirm Payment", minWidth: 70 },
@@ -101,7 +101,9 @@ const Data = ({ updateForm, setUpdateForm }) => {
                     <TableRow hover role="checkbox" key={index}>
                       {columns.map((column, newIndex) => {
                         if (column.id === "sno") {
-                          return <TableCell key={newIndex}>{index + 1}</TableCell>;
+                          return (
+                            <TableCell key={newIndex}>{index + 1}</TableCell>
+                          );
                         }
                         if (column.id === "paid") {
                           return (
@@ -115,72 +117,78 @@ const Data = ({ updateForm, setUpdateForm }) => {
                           );
                         }
                         if (column.id === "confirm") {
-                          return (
-                            <TableCell
-                              key={newIndex}
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                width: "100px",
-                                gap: "10px",
-                              }}
-                            >
-                              <Button
-                                variant="contained"
-                                color="success"
-                                sx={{ width: "20px", aspectRatio: "2/1" }}
-                                disabled={row["transactionNumber"] === ""}
-                                onClick={() => {
-                                  setLoading(true);
-                                  api
-                                    .put("/update", {
-                                      _id: row["_id"],
-                                      paid: true,
-                                      fullName: row["fullName"],
-                                      email: row["email"],
-                                      transactionNumber:
-                                        row["transactionNumber"],
-                                    })
-                                    .then((result) => {
-                                      setRestartEffect(true);
-                                      setLoading(false);
-                                    })
-                                    .catch((err) => {
-                                      //console.log(err);
-                                    });
+                          if (sessionStorage.getItem("user") === "admin") {
+                            return (
+                              <TableCell
+                                key={newIndex}
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  width: "100px",
+                                  gap: "10px",
                                 }}
                               >
-                                <FileDownloadDoneIcon />
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="error"
-                                sx={{ width: "20px", aspectRatio: "2/1" }}
-                                disabled={row["transactionNumber"] === ""}
-                                onClick={() => {
-                                  setLoading(true);
-                                  api
-                                    .put("/update", {
-                                      _id: row["_id"],
-                                      paid: false,
-                                      fullName: row["fullName"],
-                                      email: row["email"],
-                                      transactionNumber: "",
-                                    })
-                                    .then((result) => {
-                                      setUpdateForm(true);
-                                      setLoading(false);
-                                    })
-                                    .catch((err) => {
-                                      //console.log(err);
-                                    });
-                                }}
-                              >
-                                <CloseIcon />
-                              </Button>
-                            </TableCell>
-                          );
+                                <Button
+                                  variant="contained"
+                                  color="success"
+                                  sx={{ width: "20px", aspectRatio: "2/1" }}
+                                  disabled={row["transactionNumber"] === ""}
+                                  onClick={() => {
+                                    setLoading(true);
+                                    api
+                                      .put("/update", {
+                                        _id: row["_id"],
+                                        paid: true,
+                                        fullName: row["fullName"],
+                                        email: row["email"],
+                                        transactionNumber:
+                                          row["transactionNumber"],
+                                      })
+                                      .then((result) => {
+                                        setRestartEffect(true);
+                                        setLoading(false);
+                                      })
+                                      .catch((err) => {
+                                        //console.log(err);
+                                      });
+                                  }}
+                                >
+                                  <FileDownloadDoneIcon />
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  sx={{ width: "20px", aspectRatio: "2/1" }}
+                                  disabled={row["transactionNumber"] === ""}
+                                  onClick={() => {
+                                    setLoading(true);
+                                    api
+                                      .put("/update", {
+                                        _id: row["_id"],
+                                        paid: false,
+                                        fullName: row["fullName"],
+                                        email: row["email"],
+                                        transactionNumber: "",
+                                      })
+                                      .then((result) => {
+                                        setUpdateForm(true);
+                                        setLoading(false);
+                                      })
+                                      .catch((err) => {
+                                        //console.log(err);
+                                      });
+                                  }}
+                                >
+                                  <CloseIcon />
+                                </Button>
+                              </TableCell>
+                            );
+                          } else {
+                            return (
+                              <TableCell key={newIndex}>Not Authorized</TableCell>
+                            );
+                          }
                         }
                         return (
                           <TableCell key={newIndex}>{row[column.id]}</TableCell>
