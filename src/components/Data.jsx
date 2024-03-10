@@ -146,7 +146,7 @@ const Data = ({ updateForm, setUpdateForm }) => {
                                           row["transactionNumber"],
                                       })
                                       .then((result) => {
-                                        setRestartEffect(true);
+                                        setUpdateForm(true);
                                         setLoading(false);
                                       })
                                       .catch((err) => {
